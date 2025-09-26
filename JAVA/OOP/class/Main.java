@@ -1,3 +1,6 @@
+import java.util.Map;
+import java.util.function.Supplier;
+
 interface IPDevice{
     public void pressKey(String keyname);
 }
@@ -18,9 +21,18 @@ class Keyboard implements IPDevice{
 
 class DeviceSelector{
 
+    private static final Map<String, Supplier<IPDevice>> devices = Map.of
+        (
+            "mouse" , Mouse::new,
+            "keyboard", Keyboard::new
+
+        );
+
+    private int deviceInitialized = 0;
+
     private DeviceSelector(){};
 
-    private int operationCount = 0;
+    
     private static class Holder
     {
         private static final DeviceSelector INSTANCE = new DeviceSelector();
@@ -33,17 +45,14 @@ class DeviceSelector{
 
     public  IPDevice getIpDevice(String deviceName)
     {
-        operationCount++;
-        if(deviceName.equalsIgnoreCase("mouse"))
-        {
-            return new Mouse();
-        }
-        return new Keyboard();
+        deviceInitialized++;
+
+        return devices.getOrDefault(deviceName.toLowerCase(), Keyboard::new).get();
     }
 
-    public int getOperationCount()
+    public int getDeviceInitializedCount()
     {
-        return operationCount;
+        return deviceInitialized;
     }
 }
 class Main{
@@ -53,10 +62,11 @@ class Main{
         
         IPDevice ipDevice = deviceSelector.getIpDevice("mouse");
         ipDevice.pressKey("Left Click");
+        ipDevice.pressKey("Right Click");
 
         ipDevice = deviceSelector.getIpDevice("Keyboard");
         ipDevice.pressKey("A");
 
-        System.out.println("Operation Count is :" + deviceSelector.getOperationCount());
+        System.out.println("Devices initialized count is :" + deviceSelector.getDeviceInitializedCount());
     }
 }
