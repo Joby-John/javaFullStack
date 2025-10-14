@@ -2,19 +2,23 @@ package JAVA.OOP.abstarctClassesAndInterfaces;
 
 // Interface
 interface PowerSupply {
+    int voltageRating = 240; // by default variables in interface are final and static 
     void powerConnected();
 }
-interface Portable{
+
+interface Portable {
     void move();
+
+    // Java 8 default method
+    default void Deskmove() {
+        System.out.println("We can't move desktop");
+    }
 }
 
 // Abstract class
 abstract class Computer {
-
-    // Abstract method (must be implemented by subclasses)
     public abstract void compiler();
 
-    // Optional: Concrete method with default behavior
     public void start() {
         System.out.println("Starting the computer");
     }
@@ -32,13 +36,12 @@ class Laptop extends Computer implements PowerSupply, Portable {
     }
 
     @Override
-    public void move()
-    {
-        System.out.println("Laptop can be moved from one place to other");
+    public void move() {
+        System.out.println("Laptop can be moved from one place to another");
     }
 }
 
-class Desktop extends Computer implements PowerSupply {
+class Desktop extends Computer implements PowerSupply, Portable {
     @Override
     public void compiler() {
         System.out.println("Compiling faster on Desktop");
@@ -48,39 +51,47 @@ class Desktop extends Computer implements PowerSupply {
     public void powerConnected() {
         System.out.println("Desktop running on 240V");
     }
+
+    @Override
+    public void move() {
+        Deskmove(); // Uses default method
+    }
 }
 
 class Developer {
-
     public void turnOnPower(PowerSupply comp) {
         comp.powerConnected();
     }
 
     public void code(Computer comp) {
-        comp.start(); // Optional: show concrete method from abstract class
+        comp.start();
         System.out.println("Coding...");
-        comp.compiler(); // Polymorphic call
+        comp.compiler();
     }
 }
 
 public class Main {
-
     public static void main(String args[]) {
         Developer dev1 = new Developer();
         Computer lap1 = new Laptop();
         Computer desk1 = new Desktop();
 
-        ((Portable) lap1).move();
+        System.out.println("Power Rating is " + PowerSupply.voltageRating);
 
-        // Using interface polymorphism
+        // Portable polymorphism
+        ((Portable) lap1).move();
+        ((Portable) desk1).move();
+
+        // Interface polymorphism
         dev1.turnOnPower((PowerSupply) lap1);
         dev1.turnOnPower((PowerSupply) desk1);
 
-        // Using abstract class polymorphism
+        // Abstract class polymorphism
         dev1.code(lap1);
         dev1.code(desk1);
     }
 }
+
 
 /*
  * Abstract Classes and Interfaces Notes
