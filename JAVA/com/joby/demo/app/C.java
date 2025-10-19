@@ -1,5 +1,5 @@
-package com.joby.demo.app;
-import com.joby.demo.app.*;
+package JAVA.com.joby.demo.app;
+import JAVA.com.joby.demo.app.*;
 
 public class C extends A{
     

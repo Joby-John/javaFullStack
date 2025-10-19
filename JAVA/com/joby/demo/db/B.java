@@ -1,5 +1,5 @@
-package com.joby.demo.db;
-import com.joby.demo.app.A;
+package JAVA.com.joby.demo.db;
+import JAVA.com.joby.demo.app.A;
 
 public class B extends A{
     

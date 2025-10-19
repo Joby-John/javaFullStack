@@ -1,6 +1,6 @@
 package JAVA.OOP.packages;
 
-import com.joby.demo.app.*;
+import JAVA.com.joby.demo.app.*;
 
 public class Demo {
    public static void main(String args[])

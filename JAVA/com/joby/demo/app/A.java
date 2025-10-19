@@ -1,4 +1,4 @@
-package com.joby.demo.app;
+package JAVA.com.joby.demo.app;
 
 public final class A {
  
